@@ -60,40 +60,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Typewriter Effect ---
-    const roles = ["Student", "Leader", "Dreamer", "Future Achiever"];
     const typeWriterElement = document.getElementById('typewriter');
-    let roleIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let typingSpeed = 150;
+    if (typeWriterElement) {
+        const roles = ["Student", "Leader", "Dreamer", "Future Achiever"];
+        let roleIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 150;
 
-    function type() {
-        const currentRole = roles[roleIndex];
-        
-        if (isDeleting) {
-            typeWriterElement.textContent = currentRole.substring(0, charIndex - 1);
-            charIndex--;
-            typingSpeed = 50;
-        } else {
-            typeWriterElement.textContent = currentRole.substring(0, charIndex + 1);
-            charIndex++;
-            typingSpeed = 150;
+        function type() {
+            const currentRole = roles[roleIndex];
+            
+            if (isDeleting) {
+                typeWriterElement.textContent = currentRole.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 50;
+            } else {
+                typeWriterElement.textContent = currentRole.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 150;
+            }
+
+            if (!isDeleting && charIndex === currentRole.length) {
+                isDeleting = true;
+                typingSpeed = 1500; // Pause at end of word
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                roleIndex = (roleIndex + 1) % roles.length;
+                typingSpeed = 500; // Pause before new word
+            }
+
+            setTimeout(type, typingSpeed);
         }
 
-        if (!isDeleting && charIndex === currentRole.length) {
-            isDeleting = true;
-            typingSpeed = 1500; // Pause at end of word
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            roleIndex = (roleIndex + 1) % roles.length;
-            typingSpeed = 500; // Pause before new word
-        }
-
-        setTimeout(type, typingSpeed);
+        // Start typewriter effect after a short delay
+        setTimeout(type, 1000);
     }
-
-    // Start typewriter effect after a short delay
-    setTimeout(type, 1000);
 
 
     // --- Scroll Reveal Animation ---
